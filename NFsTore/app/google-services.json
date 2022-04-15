@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "941962193329",
+    "firebase_url": "https://tugaspam-8d526-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "tugaspam-8d526",
+    "storage_bucket": "tugaspam-8d526.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:941962193329:android:8f1a3143a06483a7e2f590",
+        "android_client_info": {
+          "package_name": "com.example.nfstore"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "941962193329-fpal0lr98cmdnpcccc5tl2lmmts4u8d9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvFTIjdCLcMSYr9xUOuKHmLGQblKzQq2o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "941962193329-fpal0lr98cmdnpcccc5tl2lmmts4u8d9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:941962193329:android:289c11468965169ce2f590",
+        "android_client_info": {
+          "package_name": "com.example.tugas4pam"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "941962193329-fpal0lr98cmdnpcccc5tl2lmmts4u8d9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvFTIjdCLcMSYr9xUOuKHmLGQblKzQq2o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "941962193329-fpal0lr98cmdnpcccc5tl2lmmts4u8d9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
