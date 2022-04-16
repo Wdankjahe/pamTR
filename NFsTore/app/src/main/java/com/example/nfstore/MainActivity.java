@@ -28,7 +28,15 @@ public class MainActivity extends AppCompatActivity {
     private EditText userInput,passwordInput;
     private Button loginB,createB;
     private DatabaseReference mFirebaseDB;
+/*
+Cara pakai adapter baru (contoh ) :
+gridView = findViewById(R.id.gridTest);
+        ArrayList<model> modelList = new ArrayList<model>();
+        modelList.add(new model("Test1","https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.jtzLV8nbTiaPVkbonKgPJAHaDk%26pid%3DApi&f=1"));
 
+        MyAdapter adapter = new MyAdapter(this,0,modelList);
+        gridView.setAdapter(adapter);
+ */
 
 
     @Override

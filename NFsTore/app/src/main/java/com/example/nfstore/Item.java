@@ -26,6 +26,6 @@ public class Item {
     public String getName() {return name;}
     public float getPrice() {return price;}
     public Map<Date , String>  getHistory(){return history;}
-
+    public String getImgLink() { return imgLink;}
 
 }
