@@ -3,6 +3,7 @@ package com.example.nfstore;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -119,7 +120,8 @@ gridView = findViewById(R.id.gridTest);
                                         }
                                     }
                                 }
-
+                                Intent i = new Intent(MainActivity.this, Catalog.class);
+                                startActivity(i);
                             }else
                             {
                                 Log.w("Data : ", "No Exist" );
