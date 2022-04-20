@@ -9,8 +9,12 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -27,7 +31,10 @@ import java.util.List;
 
 public class Catalog extends AppCompatActivity {
     private DatabaseReference mFirebaseDB;
+    String user;
     GridView gridView;
+    Button logoutB, itemsB;
+    TextView userW;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +42,18 @@ public class Catalog extends AppCompatActivity {
         gridView = findViewById(R.id.gridy);
         FirebaseDatabase mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDB = mFirebaseInstance.getReference("Items");
+        user = getIntent().getStringExtra("User");
+        userW = findViewById(R.id.welcome);
+        userW.setText("Hi " + user + "!");
+        logoutB = findViewById(R.id.logoutbutton);
+        itemsB = findViewById(R.id.youritembutton);
+        logoutB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+        //kode buat data dummy
         /*List<String> history = new ArrayList<String>();
         history.add("10-04-2022");
         history.add("CatLady");
@@ -108,6 +127,18 @@ public class Catalog extends AppCompatActivity {
                                 }
                                 SpecialAdapter adapter = new SpecialAdapter(getApplicationContext(),0,modelList);
                                 gridView.setAdapter(adapter);
+                                gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                                        Item string = (Item)adapterView.getItemAtPosition(i);
+                                        //intent putextra itemname;
+                                        Intent intent = new Intent(Catalog.this,Itemdetail.class);
+                                        intent.putExtra("itemname",string.getName());
+                                        intent.putExtra("User",user);
+                                        startActivity(intent);
+                                        Log.w( "onItemClick: ", string.getName());
+                                    }
+                                });
                             }else
                             {
 

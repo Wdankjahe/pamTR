@@ -75,6 +75,7 @@ gridView = findViewById(R.id.gridTest);
         loginB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                Login(userInput.getText().toString(),passwordInput.getText().toString());
 
             }
@@ -84,12 +85,14 @@ gridView = findViewById(R.id.gridTest);
 
     private void Login(String userName, String Password)
     {
-        User user = new User(userName,0,null,Password);
-        boolean correct = false;
-        mFirebaseDB.child("Users").orderByChild("name").equalTo(userName).addListenerForSingleValueEvent(
-                new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+        if (!userName.isEmpty() || !Password.isEmpty())
+        {
+            User user = new User(userName,0,null,Password);
+            boolean correct = false;
+            mFirebaseDB.child("Users").orderByChild("name").equalTo(userName).addListenerForSingleValueEvent(
+                    new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                             if (snapshot.exists())
                             {
@@ -102,41 +105,96 @@ gridView = findViewById(R.id.gridTest);
 
                                     try {
                                         HashMap<String, Object> userData = (HashMap<String, Object>) data;
+                                        if (userData.get("name").toString().equals(userName) &&userData.get("password").toString().equals(Password) )
+                                        {
+                                            Log.w("Hasil : Login","Berhasil");
+                                            Intent i = new Intent(MainActivity.this, Catalog.class);
+                                            i.putExtra("User",userName);
+                                            startActivity(i);
+                                        }else
+                                        {
+                                            Log.w("Hasil : Login","Gagal");
+                                        }
 
-                                        Log.w("Hasil : ", userData.get("name").toString() + " " + userData.get("password").toString());
 
 
                                     } catch (ClassCastException cce) {
-
-// If the object can’t be casted into HashMap, it means that it is of type String.
-
-                                        try {
-
-                                            String mString = String.valueOf(dataMap.get(key));
-                                            Log.w("Value Lain", mString);
-
-                                        } catch (ClassCastException cce2) {
-
-                                        }
                                     }
                                 }
-                                Intent i = new Intent(MainActivity.this, Catalog.class);
-                                startActivity(i);
+
                             }else
                             {
                                 Log.w("Data : ", "No Exist" );
-                                mFirebaseDB.child("Users").child(mFirebaseDB.push().getKey()).setValue(user);
+                                //mFirebaseDB.child("Users").child(mFirebaseDB.push().getKey()).setValue(user);
                             }
 
-                    }
+                        }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Log.w("Data : ", "Failed" );
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Log.w("Data : ", "Failed" );
+                        }
                     }
-                }
-        );
+            );
+        }
 
+
+    }
+
+    private void createAccount(String username, String password)
+    {
+        if (!username.isEmpty() || !password.isEmpty())
+        {
+            User user = new User(username,0,null,password);
+            boolean correct = false;
+            mFirebaseDB.child("Users").orderByChild("name").equalTo(username).addListenerForSingleValueEvent(
+                    new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                            if (snapshot.exists())
+                            {
+                                Log.w("Data : ", "Exists");
+                                HashMap<String, Object> dataMap = (HashMap<String, Object>) snapshot.getValue();
+
+                                for (String key : dataMap.keySet()) {
+
+                                    Object data = dataMap.get(key);
+
+                                    try {
+                                        HashMap<String, Object> userData = (HashMap<String, Object>) data;
+                                        if (userData.get("name").toString().equals(username) &&userData.get("password").toString().equals(password) )
+                                        {
+                                            Log.w("Hasil : Login","Berhasil");
+                                            Intent i = new Intent(MainActivity.this, Catalog.class);
+                                            i.putExtra("User",username);
+                                            startActivity(i);
+                                        }else
+                                        {
+                                            Log.w("Hasil : Login","Gagal");
+                                        }
+
+
+
+                                    } catch (ClassCastException cce) {
+                                    }
+                                }
+
+                            }else
+                            {
+                                Log.w("Data : ", "No Exist" );
+                                //mFirebaseDB.child("Users").child(mFirebaseDB.push().getKey()).setValue(user);
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Log.w("Data : ", "Failed" );
+                        }
+                    }
+            );
+        }
     }
 
 

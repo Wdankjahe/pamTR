@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NFsTore">
         <activity
+            android:name=".Itemdetail"
+            android:exported="false" />
+        <activity
             android:name=".Catalog"
             android:exported="false" />
         <activity
