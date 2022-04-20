@@ -1,8 +1,10 @@
 package com.example.nfstore;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,11 +33,14 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Catalog extends AppCompatActivity {
-    private DatabaseReference mFirebaseDB;
+    private DatabaseReference mFirebaseDB,firebaseUser;
     String user;
+
     GridView gridView;
     Button logoutB, itemsB;
-    TextView userW;
+    TextView userW,wallet;
+    String userKey;
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,15 +48,28 @@ public class Catalog extends AppCompatActivity {
         gridView = findViewById(R.id.gridy);
         FirebaseDatabase mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDB = mFirebaseInstance.getReference("Items");
+        firebaseUser = mFirebaseInstance.getReference("User");
         user = getIntent().getStringExtra("User");
+        wallet = findViewById(R.id.yourbalance);
+        setPersonalInfo(wallet,user);
         userW = findViewById(R.id.welcome);
         userW.setText("Hi " + user + "!");
         logoutB = findViewById(R.id.logoutbutton);
         itemsB = findViewById(R.id.youritembutton);
+
         logoutB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
+            }
+        });
+        itemsB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(Catalog.this, myitems.class);
+                i.putExtra("User",user);
+                startActivity(i);
+
             }
         });
         //kode buat data dummy
@@ -155,7 +174,56 @@ public class Catalog extends AppCompatActivity {
                 }
         );
 
+
     }
 
+    void setPersonalInfo(TextView myview,String myUser)
+    {
+        firebaseUser.child("Users").orderByChild("name").equalTo(myUser).addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
 
+                        if (snapshot.exists())
+                        {
+                            Log.w("Data info : ", "Exists");
+                            HashMap<String, Object> dataMap = (HashMap<String, Object>) snapshot.getValue();
+
+                            for (String key : dataMap.keySet()) {
+
+                                Object data = dataMap.get(key);
+                                userKey = key;
+
+                                try {
+                                    HashMap<String, Object> userData = (HashMap<String, Object>) data;
+                                    myview.setText("Your Balance : " + userData.get("wallet").toString());
+                                } catch (ClassCastException cce) {
+                                }
+                            }
+
+                        }else
+                        {
+                            Log.w("Data : ", "No Exist" );
+                            //mFirebaseDB.child("Users").child(mFirebaseDB.push().getKey()).setValue(user);
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Log.w("Data : ", "Failed" );
+                    }
+                }
+        );
+
+
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setPersonalInfo(wallet,user);
+    }
 }

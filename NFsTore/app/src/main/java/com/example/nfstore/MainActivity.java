@@ -80,6 +80,12 @@ gridView = findViewById(R.id.gridTest);
 
             }
         });
+        createB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createAccount(userInput.getText().toString(),passwordInput.getText().toString());
+            }
+        });
 
     }
 
@@ -145,45 +151,22 @@ gridView = findViewById(R.id.gridTest);
     {
         if (!username.isEmpty() || !password.isEmpty())
         {
-            User user = new User(username,0,null,password);
+            User user = new User(username,900,null,password);
             boolean correct = false;
             mFirebaseDB.child("Users").orderByChild("name").equalTo(username).addListenerForSingleValueEvent(
                     new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                            if (snapshot.exists())
+                            if (!snapshot.exists())
                             {
-                                Log.w("Data : ", "Exists");
-                                HashMap<String, Object> dataMap = (HashMap<String, Object>) snapshot.getValue();
+                                mFirebaseDB.child("Users").child(mFirebaseDB.push().getKey()).setValue(user);
 
-                                for (String key : dataMap.keySet()) {
-
-                                    Object data = dataMap.get(key);
-
-                                    try {
-                                        HashMap<String, Object> userData = (HashMap<String, Object>) data;
-                                        if (userData.get("name").toString().equals(username) &&userData.get("password").toString().equals(password) )
-                                        {
-                                            Log.w("Hasil : Login","Berhasil");
-                                            Intent i = new Intent(MainActivity.this, Catalog.class);
-                                            i.putExtra("User",username);
-                                            startActivity(i);
-                                        }else
-                                        {
-                                            Log.w("Hasil : Login","Gagal");
-                                        }
-
-
-
-                                    } catch (ClassCastException cce) {
-                                    }
-                                }
 
                             }else
                             {
-                                Log.w("Data : ", "No Exist" );
-                                //mFirebaseDB.child("Users").child(mFirebaseDB.push().getKey()).setValue(user);
+                                Log.w("Data : ", "Exist" );
+                                //
                             }
 
                         }
