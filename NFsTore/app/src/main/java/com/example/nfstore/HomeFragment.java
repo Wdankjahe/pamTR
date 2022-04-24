@@ -170,7 +170,7 @@ public class HomeFragment extends Fragment {
                                 userKey = key;
                                 try {
                                     HashMap<String, Object> userData = (HashMap<String, Object>) data;
-                                    myview.setText("Your Balance : " + userData.get("wallet").toString());
+                                    myview.setText("Your Balance : $" + userData.get("wallet").toString());
                                 } catch (ClassCastException cce) {
                                 }
                             }
