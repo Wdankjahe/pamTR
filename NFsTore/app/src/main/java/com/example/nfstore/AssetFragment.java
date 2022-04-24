@@ -105,7 +105,7 @@ public class AssetFragment extends Fragment {
                                 try {
                                     Log.w("Data : ", "INI TRY");
                                     HashMap<String, Object> userData = (HashMap<String, Object>) data;
-                                    walletBalance.setText(userData.get("wallet").toString());
+                                    walletBalance.setText("$"+userData.get("wallet").toString());
 
                                     List<String> historyString = (List<String>) userData.get("items");
                                     if (historyString ==null)

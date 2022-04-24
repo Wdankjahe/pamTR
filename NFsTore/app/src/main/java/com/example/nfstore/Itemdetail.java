@@ -35,8 +35,8 @@ public class Itemdetail extends AppCompatActivity {
     private DatabaseReference mFirebaseDB,mFirebaseUser;
     TextView textView,textprice,usersbalanceview;
     String itemIs="";
-    ImageView itemImage;
-    Button backButton,buyButton;
+    ImageView itemImage,backButton;
+    Button buyButton;
     String user;
     ListView historyList;
     float usersBalance,itemsPrice;

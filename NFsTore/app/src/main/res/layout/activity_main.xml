@@ -26,7 +26,7 @@
 
     <Button
         android:id="@+id/continueBtn"
-        style="@android:style/Widget.Material.Button"
+        style="@style/Widget.AppCompat.Button"
         android:layout_width="253dp"
         android:layout_height="48dp"
         android:background="@color/white"
@@ -55,5 +55,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
         app:layout_constraintVertical_bias="0.873" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="146dp"
+        android:layout_height="158dp"
+        android:layout_marginTop="220dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
