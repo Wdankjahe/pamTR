@@ -10,7 +10,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -22,8 +21,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import org.w3c.dom.Text;
 
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -58,23 +55,6 @@ public class Itemdetail extends AppCompatActivity {
         mFirebaseUser = mFirebaseInstance.getReference("User");
 
         checkBalance(user);
-        mFirebaseInstance.getReference("app_title").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-
-                String appTitle = dataSnapshot.getValue(String.class);
-
-                // update toolbar title
-                getSupportActionBar().setTitle(appTitle);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-
-            }
-        });
         textView = findViewById(R.id.itemname);
         textprice = findViewById(R.id.pricing);
         itemImage = findViewById(R.id.imageView2);
@@ -98,9 +78,6 @@ public class Itemdetail extends AppCompatActivity {
                         new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                                //if (snapshot.exists())
-                                //{
                                 if (usersBalance > itemsPrice)
                                 {
                                     HashMap<String, Object> dataMap = (HashMap<String, Object>) snapshot.getValue();
@@ -127,16 +104,9 @@ public class Itemdetail extends AppCompatActivity {
                                                 mFirebaseUser.child("Users").child(key).child("items").setValue(myItems);
                                                 buyButton.setEnabled(false);
                                             }
-
-
-
-
-
-
                                         } catch (ClassCastException cce) {
                                         }
                                     }
-
                                     checkBalance(user);
                                 }else
                                 {
@@ -248,23 +218,17 @@ public class Itemdetail extends AppCompatActivity {
                                 HashMap<String, Object> userData = (HashMap<String, Object>) data;
 
                                 List<String> myItems = (List<String>) userData.get("items");
-                                for (int i=0;i<myItems.size();i++)
-                                {
-                                    if (myItems.get(i).equals(itemname))
+                                if(myItems != null){
+                                    for (int i=0;i<myItems.size();i++)
                                     {
-
-                                        myItems.set(i,"(Was an owner)"+itemname);
-                                        mFirebaseUser.child("Users").child(key).child("items").setValue(myItems);
-                                        break;
+                                        if (myItems.get(i).equals(itemname))
+                                        {
+                                            myItems.set(i,"(Was an owner)"+itemname);
+                                            mFirebaseUser.child("Users").child(key).child("items").setValue(myItems);
+                                            break;
+                                        }
                                     }
                                 }
-
-
-
-
-
-
-
                             } catch (ClassCastException cce) {
                             }
                         }
