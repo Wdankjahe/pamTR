@@ -81,6 +81,8 @@ public class LoginActivity extends AppCompatActivity {
                                             Log.w("Hasil : Login","Berhasil");
                                             Intent i = new Intent(LoginActivity.this, BerandaActivity.class);
                                             i.putExtra("User",userName);
+                                            i.putExtra("address", key);
+                                            Log.w("INI COBA GET KEY", key);
                                             startActivity(i);
                                         }else
                                         {

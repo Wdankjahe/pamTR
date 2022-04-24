@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,9 +25,18 @@ public class ProfileFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    String user, address;
+    TextView username, addresses;
+    Button logout;
+    private View view;
 
     public ProfileFragment() {
         // Required empty public constructor
+    }
+
+    public ProfileFragment(String user, String address){
+        this.user = user;
+        this.address = address;
     }
 
     /**
@@ -59,6 +70,19 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        view = inflater.inflate(R.layout.fragment_profile, container, false);
+        username = view.findViewById(R.id.textView7);
+        logout = view.findViewById(R.id.button3);
+        addresses = view.findViewById(R.id.textView8);
+        username.setText(user);
+        addresses.setText(address);
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().finish();
+            }
+        });
+        return view;
     }
 }

@@ -32,7 +32,7 @@ public class BerandaActivity extends AppCompatActivity {
                     replaceFragment(hf);
                     break;
                 case R.id.Profile:
-                    replaceFragment(new ProfileFragment());
+                    replaceFragment(new ProfileFragment(user, getIntent().getStringExtra("address")));
                     break;
                 case R.id.Asset:
                     replaceFragment(af);
