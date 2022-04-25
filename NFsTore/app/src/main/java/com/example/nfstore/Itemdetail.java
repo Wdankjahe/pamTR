@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -103,6 +104,7 @@ public class Itemdetail extends AppCompatActivity {
                                                 mFirebaseUser.child("Users").child(key).child("wallet").setValue(usersBalance);
                                                 mFirebaseUser.child("Users").child(key).child("items").setValue(myItems);
                                                 buyButton.setEnabled(false);
+                                                Toast.makeText(Itemdetail.this, "Your Purchase was Successful!", Toast.LENGTH_SHORT).show();
                                             }
                                         } catch (ClassCastException cce) {
                                         }
@@ -110,7 +112,7 @@ public class Itemdetail extends AppCompatActivity {
                                     checkBalance(user);
                                 }else
                                 {
-                                    //action kalau bokek
+                                    Toast.makeText(Itemdetail.this, "Insufficient Funds!", Toast.LENGTH_SHORT).show();
                                 }
                                     Log.w("Data : ", "Exists button");
 
@@ -125,7 +127,6 @@ public class Itemdetail extends AppCompatActivity {
                             }
                         }
                 );
-
             }
         });
 

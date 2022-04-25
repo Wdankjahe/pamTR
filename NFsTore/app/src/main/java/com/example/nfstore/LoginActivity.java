@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -87,13 +88,16 @@ public class LoginActivity extends AppCompatActivity {
                                         }else
                                         {
                                             Log.w("Hasil : Login","Gagal");
+                                            Toast.makeText(LoginActivity.this, "Invalid Username/Password!", Toast.LENGTH_SHORT).show();
                                         }
                                     } catch (ClassCastException cce) {
+
                                     }
                                 }
                             }else
                             {
                                 Log.w("Data : ", "No Exist" );
+                                Toast.makeText(LoginActivity.this, "Account Not Found!", Toast.LENGTH_SHORT).show();
                                 //mFirebaseDB.child("Users").child(mFirebaseDB.push().getKey()).setValue(userEric);
                             }
                         }

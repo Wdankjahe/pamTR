@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -20,7 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 public class RegisterActivity extends AppCompatActivity {
 
     private TextView login;
-    private EditText userInput,passwordInput;
+    private EditText userInput,passwordInput, confirmPasswordInput;
     private DatabaseReference mFirebaseDB;
     private Button createB;
 
@@ -33,7 +34,8 @@ public class RegisterActivity extends AppCompatActivity {
         createB = findViewById(R.id.button);
 
         userInput = findViewById(R.id.usernameTxt);
-        passwordInput = findViewById(R.id.passwordTxt2);
+        passwordInput = findViewById(R.id.passwordTxt);
+        confirmPasswordInput = findViewById(R.id.passwordTxt2);
 
         FirebaseDatabase mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDB = mFirebaseInstance.getReference("User");
@@ -49,36 +51,43 @@ public class RegisterActivity extends AppCompatActivity {
         createB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                createAccount(userInput.getText().toString(),passwordInput.getText().toString());
+                createAccount(userInput.getText().toString(),passwordInput.getText().toString(), confirmPasswordInput.getText().toString());
             }
         });
     }
 
-    private void createAccount(String username, String password)
+    private void createAccount(String username, String password, String confirmPassword)
     {
         if (!username.isEmpty() || !password.isEmpty())
         {
-            User userEric = new User(username,900,null,password);
-            boolean correct = false;
-            mFirebaseDB.child("Users").orderByChild("name").equalTo(username).addListenerForSingleValueEvent(
-                    new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if (!snapshot.exists())
-                            {
-                                mFirebaseDB.child("Users").child(mFirebaseDB.push().getKey()).setValue(userEric);
-                            }else
-                            {
-                                Log.w("Data : ", "Exist" );
-                                //
+            if(confirmPassword.equals(password)){
+                User userEric = new User(username,900,null,password);
+                boolean correct = false;
+                mFirebaseDB.child("Users").orderByChild("name").equalTo(username).addListenerForSingleValueEvent(
+                        new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if (!snapshot.exists())
+                                {
+                                    mFirebaseDB.child("Users").child(mFirebaseDB.push().getKey()).setValue(userEric);
+                                    Toast.makeText(RegisterActivity.this, "Register Successful!", Toast.LENGTH_SHORT).show();
+                                    RegisterActivity.this.finish();
+                                }else
+                                {
+                                    Log.w("Data : ", "Exist" );
+                                    Toast.makeText(RegisterActivity.this, "Account Already Registered!", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                Log.w("Data : ", "Failed" );
                             }
                         }
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                            Log.w("Data : ", "Failed" );
-                        }
-                    }
-            );
+                );
+            }else{
+
+                Toast.makeText(RegisterActivity.this, "Password Confirmation Doesn't Match Password!", Toast.LENGTH_LONG).show();
+            }
         }
     }
 }
